@@ -1,0 +1,9 @@
+export AUTOGEN=/bin/true
+export DEJAGNU=/bin/true
+export EXPECT=/bin/true
+export NEWWORKDIR=/usr/share/git/contrib/workdir/git-new-workdir
+export ac_cv_dg_tcl_modern=yes
+unset MAKEFLAGS
+
+ver=13.2.rel1
+abe_date=2023-10-30  # Set to date of release
