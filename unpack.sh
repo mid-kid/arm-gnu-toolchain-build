@@ -34,7 +34,7 @@ do_git binutils-gdb binutils-gdb "$binutils_revision"
 do_git binutils-gdb--gdb binutils-gdb "$gdb_revision"
 ln -sf arm-gnu-toolchain-src-snapshot-*/ gcc
 
-# Remove unused components from manifests
+# Patch out unused components from manifests
 for x in \
         arm-gnu-toolchain-arm-none-eabi-abe-manifest.txt \
         arm-gnu-toolchain-arm-none-eabi-nano-abe-manifest.txt \
@@ -43,3 +43,7 @@ for x in \
         -e '/^python_/d' -e '/^#.*\<python\>/d' \
         "../src/$x" > "$x"
 done
+
+# Patch copy_nano_libraries.sh for different architectures
+sed -e '/^host="/chost="$1"' ../src/copy_nano_libraries.sh > copy_nano_libraries.sh
+chmod +x copy_nano_libraries.sh

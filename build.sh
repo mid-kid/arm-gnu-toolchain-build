@@ -2,6 +2,8 @@
 set -e
 . ./env
 
+build="$(./abe/config.guess)"
+
 mkdir -p build && cd build
 ../abe/configure \
     --with-local-snapshots="$PWD/../snapshots"
@@ -10,6 +12,7 @@ mkdir -p build && cd build
     --disable update \
     --disable make_docs \
     --build all
+rm -rf builds/hosttools "builds/$build"
 cd ..
 
 mkdir -p build_newlib && cd build_newlib
@@ -20,9 +23,11 @@ mkdir -p build_newlib && cd build_newlib
     --disable update \
     --disable make_docs \
     --build all
+rm -rf builds/hosttools "builds/$build"
 cd ..
 
-./src/copy_nano_libraries.sh
+./snapshots/copy_nano_libraries.sh "$build"
+rm -rf build_newlib
 
 mkdir -p build_aarch64 && cd build_aarch64
 ../abe/configure \
@@ -32,4 +37,9 @@ mkdir -p build_aarch64 && cd build_aarch64
     --disable update \
     --disable make_docs \
     --build all
+rm -rf builds/hosttools "builds/$build"
 cd ..
+
+# Strip
+ARCH=arm-none-eabi ./strip.sh "build/builds/destdir/$build"
+ARCH=aarch64-none-elf ./strip.sh "build_aarch64/builds/destdir/$build"

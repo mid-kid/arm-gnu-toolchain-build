@@ -20,4 +20,3 @@ dl https://developer.arm.com/-/media/Files/downloads/gnu/$ver/manifest/arm-gnu-t
 dl https://developer.arm.com/-/media/Files/downloads/gnu/$ver/manifest/arm-gnu-toolchain-aarch64-none-elf-abe-manifest.txt
 dl https://developer.arm.com/-/media/Files/downloads/gnu/$ver/manifest/copy_nano_libraries.sh
 dl https://developer.arm.com/-/media/Files/downloads/gnu/$ver/srcrel/arm-gnu-toolchain-src-snapshot-$ver.tar.xz
-chmod +x copy_nano_libraries.sh
