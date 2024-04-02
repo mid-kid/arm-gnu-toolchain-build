@@ -19,7 +19,7 @@ do_git() {
     git -C "$1" init -q
     GIT_AUTHOR_NAME=_ GIT_AUTHOR_EMAIL=_ \
     GIT_COMMITTER_NAME=_ GIT_COMMITTER_EMAIL=_ \
-    git -C "$1" commit -q -m "" --allow-empty --allow-empty-message
+    git -C "$1" commit -q -m '' --allow-empty --allow-empty-message
     ln -sf "$1" "$2.git~_rev_$3"
 }
 
