@@ -41,5 +41,5 @@ rm -rf builds/hosttools "builds/$build"
 cd ..
 
 # Strip
-ARCH=arm-none-eabi ./strip.sh "build/builds/destdir/$build"
-ARCH=aarch64-none-elf ./strip.sh "build_aarch64/builds/destdir/$build"
+#ARCH=arm-none-eabi ./strip.sh "build/builds/destdir/$build"
+#ARCH=aarch64-none-elf ./strip.sh "build_aarch64/builds/destdir/$build"

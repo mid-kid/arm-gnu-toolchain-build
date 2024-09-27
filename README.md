@@ -19,4 +19,10 @@ Usage
 ./unpack.sh
 # Build the arm-none-eabi and aarch64-none-elf toolchains
 ./build.sh
+# Strip the output
+./strip.sh "build/builds/destdir/$(./abe/config.guess)"
+ARCH=aarch64-none-elf ./strip.sh "build_aarch64/builds/destdir/$(./abe/config.guess)"
+# Package up the output
+tar cvJf arm-none-eabi.tar.xz -C "build/builds/destdir/$(./abe/config.guess)" .
+tar cvJf aarch64-none-elf.tar.xz -C "build_aarch64/builds/destdir/$(./abe/config.guess)" .
 ```
