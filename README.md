@@ -1,6 +1,8 @@
 Arm GNU Toolchain build scripts
 ===============================
 
+**Note:** Since release 14.2 the official scripts are simple enough to work with that this repository has become largely irrelevant. Still, it serves as a reference for the commands I use to build the toolchain.
+
 There's many gcc toolchains for ARM, but the one enshrined by the ARM developer website and supported by everyone is the [Arm GNU Toolchain](https://developer.arm.com/Tools%20and%20Software/GNU%20Toolchain) hosted on their website.
 
 This toolchain is built with specific options, with support for newlib-nano, and a few other tidbits, making it work on projects where sometimes other toolchains (like those provided by linux distributions) have trouble. This is especially true on embedded platforms where slight differences in the options the compiler was built with can cause trouble.
@@ -15,14 +17,7 @@ Usage
 ```
 # Download all the source code into the abe/ and src/ directories
 ./fetch.sh
-# Unpack and prepare the sources for consumption by ABE into the snapshots/ directory
-./unpack.sh
 # Build the arm-none-eabi and aarch64-none-elf toolchains
 ./build.sh
-# Strip the output
-./strip.sh "build/builds/destdir/$(./abe/config.guess)"
-ARCH=aarch64-none-elf ./strip.sh "build_aarch64/builds/destdir/$(./abe/config.guess)"
-# Package up the output
-tar cvJf arm-none-eabi.tar.xz -C "build/builds/destdir/$(./abe/config.guess)" .
-tar cvJf aarch64-none-elf.tar.xz -C "build_aarch64/builds/destdir/$(./abe/config.guess)" .
+# Outputs are in build/build-arm-none-eabi/bin-tar
 ```

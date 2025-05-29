@@ -2,44 +2,20 @@
 set -e
 . ./env
 
-build="$(./abe/config.guess)"
-
 mkdir -p build && cd build
-../abe/configure \
-    --with-local-snapshots="$PWD/../snapshots"
-../abe/abe.sh --manifest ../snapshots/arm-gnu-toolchain-arm-none-eabi-abe-manifest.txt \
-    --release "$ver" \
-    --disable update \
-    --disable make_docs \
-    --build all
-rm -rf builds/hosttools "builds/$build"
-cd ..
+if [ ! -d src ]; then
+    mkdir -p src && cd src
+    git clone -b $devtools_ver ../../src/gnu-devtools-for-arm
+    tar xvf ../../src/arm-gnu-toolchain-src-snapshot-$ver.tar.xz
+    cd ..
+fi
+ln -svf src/gnu-devtools-for-arm/build-gnu-toolchain.sh
 
-mkdir -p build_newlib && cd build_newlib
-../abe/configure \
-    --with-local-snapshots="$PWD/../snapshots"
-../abe/abe.sh --manifest ../snapshots/arm-gnu-toolchain-arm-none-eabi-nano-abe-manifest.txt \
-    --release "$ver" \
-    --disable update \
-    --disable make_docs \
-    --build all
-rm -rf builds/hosttools "builds/$build"
-cd ..
+# Release toolchain commands grabbed from gnu-devtools-for-arm/README.md
+NPROC="${NPROC:-$(nproc)}"
 
-./snapshots/copy_nano_libraries.sh "$build"
-rm -rf build_newlib
-
-mkdir -p build_aarch64 && cd build_aarch64
-../abe/configure \
-    --with-local-snapshots="$PWD/../snapshots"
-../abe/abe.sh --manifest ../snapshots/arm-gnu-toolchain-aarch64-none-elf-abe-manifest.txt \
-    --release "$ver" \
-    --disable update \
-    --disable make_docs \
-    --build all
-rm -rf builds/hosttools "builds/$build"
-cd ..
-
-# Strip
-#ARCH=arm-none-eabi ./strip.sh "build/builds/destdir/$build"
-#ARCH=aarch64-none-elf ./strip.sh "build_aarch64/builds/destdir/$build"
+if [ "$1" != aarch64 ]; then
+    ./build-gnu-toolchain.sh --target=arm-none-eabi --aprofile  --rmprofile -- --release --package --enable-newlib-nano --enable-gdb-with-python=yes "-j$NPROC"
+else
+    ./build-gnu-toolchain.sh --target=aarch64-none-elf -- --release --package --enable-gdb-with-python=yes "-j$NPROC"
+fi
