@@ -20,7 +20,7 @@ mkdir -p bin
 for x in $(uname -m)-none-linux-gnu-gcc gcc; do
     command -v "$x" > /dev/null || continue
     echo '#!/bin/sh' > "bin/$x"
-    echo 'exec '"'$(command -v "$x")'"' -std=gnu17 "$@"' >> "bin/$x"
+    echo 'exec '"'$(command -v "$x")'"' -std=gnu17 -Wno-error=discarded-qualifiers "$@"' >> "bin/$x"
     chmod +x "bin/$x"
 done
 export PATH="$PWD/bin:$PATH"
